@@ -19,13 +19,13 @@ public class WeatherEngineFactory {
 
 		case WeatherProvider.WUNDERGROUND:
 			return new WunderWeatherEngine();
-			
+
 		case WeatherProvider.YAHOO:
 			return new YahooWeatherEngine();
 
 		default:
-			throw new IllegalArgumentException("Unknown weather engineId: "
-					+ engineId);
+			Log.e(MetaWatch.TAG, "Unknown weather engine with id " + engineId);
+			return new DummyWeatherEngine();
 		}
 	}
 

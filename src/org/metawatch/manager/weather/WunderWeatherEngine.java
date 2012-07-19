@@ -52,7 +52,8 @@ public class WunderWeatherEngine extends AbstractWeatherEngine {
 
 	public synchronized WeatherData update(Context context,
 			WeatherData weatherData) throws Exception {
-		if (Preferences.wundergroundKey.equals("")) {
+		if (Preferences.wundergroundKey == null
+				|| Preferences.wundergroundKey.trim().equals("")) {
 			Log.e(MetaWatch.TAG,
 					"Weather Wunderground requires a personal key to be configured!");
 			return weatherData;
