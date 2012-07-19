@@ -202,6 +202,7 @@ public class MetaWatchService extends Service {
 		public static boolean autoSpeakerphone = false;
 		public static boolean showActionsInCall = true;
 		public static String themeName = "";
+		public static int weatherUpdateRate = 5;
 	}
 
 	public final class WatchType {
@@ -318,8 +319,12 @@ public class MetaWatchService extends Service {
 							Integer.toString(Preferences.smsLoopInterval)));
 			Preferences.appLaunchMode = Integer.valueOf(sharedPreferences.getString(
 					"AppLaunchMode", Integer.toString(Preferences.appLaunchMode)));
+			Preferences.weatherUpdateRate = Integer.valueOf(sharedPreferences.getString(
+					"WeatherUpdateRate", Integer.toString(Preferences.weatherUpdateRate)));
 			
 		} catch (NumberFormatException e) {
+			if (Preferences.logging)
+				Log.d(MetaWatch.TAG, "Could not decode properties", e);
 		}
 
 	}

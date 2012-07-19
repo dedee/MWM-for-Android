@@ -41,6 +41,9 @@
     <string name="settings_Overlay_weather_text">Overlay text in weather widget</string>
     <string name="settings_Overlay_weather_text_desc">Draws the text (condition and location) over the weather icon</string>
     <string name="settings_phoneCalls">Phonecalls</string>
+    <string name="settings_weatherpreferences_updaterate">Weather Update Rate</string>
+    <string name="settings_weatherpreferences_updaterate_description">Choose how often the weather data shall be updated</string>
+    
         
     <string-array name="settings_font_size_name"> 
    	<item>Small</item>
@@ -143,5 +146,22 @@
     <string name="settings_Analog">Analog Watch</string>
     <string name="settings_Other">Other</string>
     
+    <string-array name="settings_weather_updaterate_names">
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>30 min</item>
+        <item>60 min</item>
+        <item>2 hours</item>
+        <item>4 hours</item>
+    </string-array>
+
+    <string-array name="settings_weather_updaterate_values">
+        <item>5</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+    </string-array>
     
 </resources>

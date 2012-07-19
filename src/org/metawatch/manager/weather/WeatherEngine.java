@@ -8,6 +8,7 @@ import android.content.Context;
  */
 public interface WeatherEngine {
 
-	WeatherData update(Context context, WeatherData data);
+	WeatherData checkAndPerformUpdateIfRequired(Context context,
+			WeatherData data);
 
 }

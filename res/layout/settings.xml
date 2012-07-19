@@ -372,6 +372,14 @@
 	 			android:defaultValue="1"
 	 			android:summary="Choose or disable weather data source"
 	 			/>	
+	 			
+			<ListPreference android:key="WeatherUpdateRate" 
+				android:title="@string/settings_weatherpreferences_updaterate" 
+				android:summary="@string/settings_weatherpreferences_updaterate_description"
+			    android:entries="@array/settings_weather_updaterate_names" 
+				android:entryValues="@array/settings_weather_updaterate_values" 
+	 			android:defaultValue="60" />	
+			
 		    <EditTextPreference
 				android:title="Weather Location"
 				android:key="WeatherCity"

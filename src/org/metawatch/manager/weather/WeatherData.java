@@ -1,8 +1,10 @@
 package org.metawatch.manager.weather;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WeatherData {
+	public AtomicBoolean updating = new AtomicBoolean(); 
 	public boolean received = false;
 	public String icon;
 	public String temp;
