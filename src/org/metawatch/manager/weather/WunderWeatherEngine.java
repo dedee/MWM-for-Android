@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.metawatch.manager.MetaWatch;
+import org.metawatch.manager.MetaWatchService.GeolocationMode;
 import org.metawatch.manager.MetaWatchService.Preferences;
 import org.metawatch.manager.Monitors.LocationData;
 
@@ -58,18 +59,14 @@ public class WunderWeatherEngine extends AbstractWeatherEngine {
 					"Weather Wunderground requires a personal key to be configured!");
 			return weatherData;
 		}
+		if (Preferences.logging)
+			Log.d(MetaWatch.TAG,
+					"Monitors.updateWeatherDataWunderground(): start");
 
-		String weatherLocation;
-		if (isGeolocationDataUsed()) {
-			GoogleGeoCoderLocationData locationData = reverseLookupGeoLocation(
-					context, LocationData.latitude, LocationData.longitude);
-			weatherData.locationName = locationData.getLocationName();
-			weatherLocation = Double.toString(LocationData.latitude) + ","
-					+ Double.toString(LocationData.longitude);
-		} else {
-			weatherData.locationName = Preferences.weatherCity;
-			weatherLocation = Preferences.weatherCity.replace(",", "").replace(
-					" ", "%20");
+		if (Preferences.wundergroundKey.equals("")) {
+			Log.e(MetaWatch.TAG,
+					"Weather Wunderground requires a personal key to be configured!");
+			return weatherData;
 		}
 
 		String forecastQuery = "";
@@ -82,9 +79,46 @@ public class WunderWeatherEngine extends AbstractWeatherEngine {
 			hasForecast = true;
 		}
 
-		String requestUrl = "http://api.wunderground.com/api/"
-				+ Preferences.wundergroundKey + "/geolookup/conditions/"
-				+ forecastQuery + "q/" + weatherLocation + ".json";
+		String requestUrl = null;
+
+		switch (Preferences.weatherGeolocationMode) {
+
+		case GeolocationMode.MANUAL: {
+			weatherData.locationName = Preferences.weatherCity;
+			String weatherLocation = Preferences.weatherCity.replace(",", " ")
+					.replace("  ", " ").replace(" ", "%20");
+
+			requestUrl = "http://api.wunderground.com/api/"
+					+ Preferences.wundergroundKey + "/conditions/"
+					+ forecastQuery + "q/" + weatherLocation + ".json";
+		}
+			break;
+
+		case GeolocationMode.ALWAYSGOOGLE: {
+			GoogleGeoCoderLocationData locationData = reverseLookupGeoLocation(
+					context, LocationData.latitude, LocationData.longitude);
+			weatherData.locationName = locationData.getLocationName();
+			String weatherLocation = Double.toString(LocationData.latitude)
+					+ "," + Double.toString(LocationData.longitude);
+			requestUrl = "http://api.wunderground.com/api/"
+					+ Preferences.wundergroundKey + "/conditions/"
+					+ forecastQuery + "q/" + weatherLocation + ".json";
+		}
+			break;
+
+		case GeolocationMode.USEPROVIDER: {
+			String weatherLocation = Double.toString(LocationData.latitude)
+					+ "," + Double.toString(LocationData.longitude);
+			requestUrl = "http://api.wunderground.com/api/"
+					+ Preferences.wundergroundKey + "/geolookup/conditions/"
+					+ forecastQuery + "q/" + weatherLocation + ".json";
+		}
+			break;
+
+		default:
+			Log.e(MetaWatch.TAG, "Unknown geolocation mode");
+			return weatherData;
+		}
 
 		if (Preferences.logging)
 			Log.d(MetaWatch.TAG, "Request: " + requestUrl);
@@ -120,10 +154,11 @@ public class WunderWeatherEngine extends AbstractWeatherEngine {
 			isDay = false;
 		}
 
-		// FIXME: We could make this configurable if the user wants to
-		// see the weather station locality.
-		// JSONObject location = json.getJSONObject("location");
-		// weatherData.locationName = location.getString("city");
+		if (Preferences.weatherGeolocationMode == GeolocationMode.USEPROVIDER) {
+			JSONObject location = json.getJSONObject("location");
+			weatherData.locationName = location.getString("city");
+		}
+
 		weatherData.condition = current.getString("weather");
 		weatherData.icon = getIcon(current.getString("icon"), isDay);
 
@@ -168,6 +203,7 @@ public class WunderWeatherEngine extends AbstractWeatherEngine {
 		weatherData.celsius = Preferences.weatherCelsius;
 		weatherData.received = true;
 		weatherData.timeStamp = System.currentTimeMillis();
+
 		return weatherData;
 	}
 

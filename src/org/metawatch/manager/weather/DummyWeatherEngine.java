@@ -25,5 +25,4 @@ public class DummyWeatherEngine extends AbstractWeatherEngine {
 		data.timeStamp = System.currentTimeMillis();
 		return data;
 	}
-
 }

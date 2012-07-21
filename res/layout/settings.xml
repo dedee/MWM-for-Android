@@ -372,7 +372,17 @@
 	 			android:defaultValue="1"
 	 			android:summary="Choose or disable weather data source"
 	 			/>	
-	 			
+	 		<ListPreference
+	 		    android:entries="@array/settings_geolocation_names" 
+				android:entryValues="@array/settings_geolocation_values" 
+				android:title="Weather Geolocation Mode"
+				android:key="WeatherGeolocationMode"
+				android:summary="Geolocation method"
+				android:negativeButtonText="Cancel" 
+	 			android:enabled="true" 
+	 			android:defaultValue="1"
+				/>
+
 			<ListPreference android:key="WeatherUpdateRate" 
 				android:title="@string/settings_weatherpreferences_updaterate" 
 				android:summary="@string/settings_weatherpreferences_updaterate_description"
@@ -383,8 +393,8 @@
 		    <EditTextPreference
 				android:title="Weather Location"
 				android:key="WeatherCity"
-				android:summary="Default city for weather data when geolocation is disabled or not available"
-				android:defaultValue="Dallas,US"
+				android:summary="Default city for weather data when geolocation mode is set to manual"
+				android:defaultValue="Dallas TX"
 				/>
 			<CheckBoxPreference
 				android:title="Weather Celsius"
@@ -392,12 +402,7 @@
 				android:summary="Display temperature in Celsius instead of Fahrenheit"
 				android:defaultValue="false"
 				/>
-			<CheckBoxPreference
-				android:title="Weather Geolocation"
-				android:key="WeatherGeolocation"
-				android:summary="Use Geolocation for weather"
-				android:defaultValue="true"
-				/>
+
 			<EditTextPreference
 				android:title="API Key"
 				android:key="WundergroundKey"
@@ -412,33 +417,37 @@
 				/>
 		    
 		</PreferenceScreen>
-	    
-		<CheckBoxPreference
-			android:title="@string/settings_Read_calendar_during_meeting"
-			android:key="ReadCalendarDuringMeeting"
-			android:summary="@string/settings_Read_calendar_during_meeting_desc"
-			android:defaultValue="true"
-			/>
-		<EditTextPreference
-			android:title="@string/settings_Read_calendar_min_duration_to_meeting_end"
-			android:key="ReadCalendarMinDurationToMeetingEnd"
-			android:summary="@string/settings_Read_calendar_min_duration_to_meeting_end_desc"
-			android:numeric="integer"
-			android:defaultValue="15"
-			/>
-		<CheckBoxPreference
-			android:title="@string/settings_Display_location_in_small_calendar_widget"
-			android:key="DisplayLocationInSmallCalendarWidget"
-			android:summary="@string/settings_Display_location_in_small_calendar_widget_desc"
-			android:defaultValue="false"
-			/>
-		<CheckBoxPreference
-			android:title="@string/settings_Event_date_in_calendar_widget"
-			android:key="EventDateInCalendarWidget"
-			android:summary="@string/settings_Event_date_in_calendar_widget_desc"
-			android:defaultValue="false"
-			/>
-	    
+
+		<PreferenceScreen
+		    android:title="Calendar Widgets"
+		    >	    
+			<CheckBoxPreference
+				android:title="@string/settings_Read_calendar_during_meeting"
+				android:key="ReadCalendarDuringMeeting"
+				android:summary="@string/settings_Read_calendar_during_meeting_desc"
+				android:defaultValue="true"
+				/>
+			<EditTextPreference
+				android:title="@string/settings_Read_calendar_min_duration_to_meeting_end"
+				android:key="ReadCalendarMinDurationToMeetingEnd"
+				android:summary="@string/settings_Read_calendar_min_duration_to_meeting_end_desc"
+				android:numeric="integer"
+				android:defaultValue="15"
+				/>
+			<CheckBoxPreference
+				android:title="@string/settings_Display_location_in_small_calendar_widget"
+				android:key="DisplayLocationInSmallCalendarWidget"
+				android:summary="@string/settings_Display_location_in_small_calendar_widget_desc"
+				android:defaultValue="false"
+				/>
+			<CheckBoxPreference
+				android:title="@string/settings_Event_date_in_calendar_widget"
+				android:key="EventDateInCalendarWidget"
+				android:summary="@string/settings_Event_date_in_calendar_widget_desc"
+				android:defaultValue="false"
+				/>
+		</PreferenceScreen>
+			    
 	</PreferenceScreen>
 	
 	<PreferenceScreen
@@ -567,7 +576,7 @@
         <CheckBoxPreference
 			android:title="Restart if stalled"
 			android:key="AutoRestart"
-			android:summary="Automatically restart the service if it becommes stalled."
+			android:summary="Automatically restart the service if it becomes stalled."
 			android:defaultValue="false"
 			/>	
 		<CheckBoxPreference

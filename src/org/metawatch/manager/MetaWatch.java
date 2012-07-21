@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.metawatch.communityedition.R;
+import org.metawatch.manager.MetaWatchService.GeolocationMode;
 import org.metawatch.manager.MetaWatchService.Preferences;
 import org.metawatch.manager.MetaWatchService.WeatherProvider;
 import org.metawatch.manager.Monitors.LocationData;
@@ -247,7 +248,7 @@ public class MetaWatch extends TabActivity {
 						"<h3>Community Edition</h3>"+
 						"<img src=\"splash.png\">" +
 						"<p>Version " + Utils.getVersion(this) + ".</p>" +
-						"<p>Modified by Dobie Wollert, Chris Sewell, Prash D, Craig Oliver, Richard Munn, Matthias Gruenewald, Kyle Schroeder, Garth Bushell, Joakim Andersson and Chris Boyle.</p>" +
+						"<p>Modified by Dobie Wollert, Chris Sewell, Prash D, Craig Oliver, Richard Munn, Matthias Gruenewald, Kyle Schroeder, Garth Bushell, Joakim Andersson, Chris Boyle and Didi Pfeifle.</p>" +
 						"<p>&copy; Copyright 2011-2012 Meta Watch Ltd.</p>" +
 						"</center></body></html>";
         webView.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "utf-8", null);
@@ -308,7 +309,7 @@ public class MetaWatch extends TabActivity {
     		}
     	}
     	
-    	if (Preferences.weatherGeolocation) {
+    	if (Preferences.weatherGeolocationMode != GeolocationMode.MANUAL) {
     		textView.append("\n");
     		if (LocationData.received) {
     			textView.append("Location last updated:\n  ");
