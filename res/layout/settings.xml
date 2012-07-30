@@ -398,6 +398,14 @@
 	 			android:enabled="true" 
 	 			android:defaultValue="1"
 				/>
+
+			<ListPreference android:key="WeatherUpdateRate" 
+				android:title="@string/settings_weatherpreferences_updaterate" 
+				android:summary="@string/settings_weatherpreferences_updaterate_description"
+			    android:entries="@array/settings_weather_updaterate_names" 
+				android:entryValues="@array/settings_weather_updaterate_values" 
+	 			android:defaultValue="60" />	
+			
 		    <EditTextPreference
 				android:title="@string/settings_weather_location"
 				android:key="WeatherCity"

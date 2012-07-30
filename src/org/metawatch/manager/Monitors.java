@@ -262,7 +262,7 @@ public class Monitors {
 				PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Weather");
 			 	wl.acquire();
 			 	
-			 	weatherData = WeatherEngineFactory.getEngine().update(context, weatherData);
+			 	weatherData = WeatherEngineFactory.getEngine().checkAndPerformUpdateIfRequired(context, weatherData);
 			 	
 			 	wl.release();
 			}

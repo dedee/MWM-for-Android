@@ -131,43 +131,25 @@ public class YahooWeatherEngine extends AbstractWeatherEngine {
 	}
 
 	public synchronized WeatherData update(Context context,
-			WeatherData weatherData) {
-		try {
-			if (isUpdateRequired(weatherData)) {
-				if (Preferences.logging)
-					Log.d(MetaWatch.TAG,
-							"Monitors.updateWeatherDataYahoo(): start");
+			WeatherData weatherData) throws Exception {
+		// http://developer.yahoo.com/geo/placefinder/guide/requests.html#gflags-parameter
+		// The problem is when we do not use the "gflags=R" argument, we
+		// don't always get a WOEID
+		String arguments = "&count=1&gflags=R";
 
-				// http://developer.yahoo.com/geo/placefinder/guide/requests.html#gflags-parameter
-				// The problem is when we do not use the "gflags=R" argument, we
-				// don't always get a WOEID
-				String arguments = "&count=1&gflags=R";
-
-				String placeFinderUrl = null;
-				if (isGeolocationDataUsed()) {
-					placeFinderUrl = "http://where.yahooapis.com/geocode?q="
-							+ LocationData.latitude + ","
-							+ LocationData.longitude + arguments;
-				} else {
-					String weatherLocation = Preferences.weatherCity.replace(
-							" ", "%20");
-					placeFinderUrl = "http://where.yahooapis.com/geocode?q="
-							+ weatherLocation + arguments;
-				}
-
-				return requestWeatherFromYahooPlacefinder(placeFinderUrl,
-						weatherData);
-			}
-
-		} catch (Exception e) {
-			if (Preferences.logging)
-				Log.e(MetaWatch.TAG, "Exception while retreiving weather", e);
-		} finally {
-			if (Preferences.logging)
-				Log.d(MetaWatch.TAG, "Monitors.updateWeatherData(): finish");
+		String placeFinderUrl = null;
+		if (isGeolocationDataUsed()) {
+			placeFinderUrl = "http://where.yahooapis.com/geocode?q="
+					+ LocationData.latitude + "," + LocationData.longitude
+					+ arguments;
+		} else {
+			String weatherLocation = Preferences.weatherCity
+					.replace(" ", "%20");
+			placeFinderUrl = "http://where.yahooapis.com/geocode?q="
+					+ weatherLocation + arguments;
 		}
 
-		return weatherData;
+		return requestWeatherFromYahooPlacefinder(placeFinderUrl, weatherData);
 	}
 
 	/**
